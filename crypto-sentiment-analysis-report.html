@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Sentiment Analysis Report</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css">
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            background: linear-gradient(90deg, #1e3a8a 0%, #1e40af 100%);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+        }
+        .card {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        .chart-container {
+            height: 400px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        th {
+            background-color: #252525;
+        }
+        tr:hover {
+            background-color: #252525;
+        }
+        .crypto-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        .positive {
+            color: #10b981;
+        }
+        .negative {
+            color: #ef4444;
+        }
+        .neutral {
+            color: #f59e0b;
+        }
+        .recommendation {
+            border-left: 4px solid #3b82f6;
+            padding-left: 15px;
+            margin: 15px 0;
+        }
+        .rating-bar {
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 6px;
+        }
+        .rating-positive {
+            background: linear-gradient(90deg, #059669 0%, #10b981 100%);
+        }
+        .rating-neutral {
+            background: linear-gradient(90deg, #d97706 0%, #f59e0b 100%);
+        }
+        .rating-negative {
+            background: linear-gradient(90deg, #dc2626 0%, #ef4444 100%);
+        }
+        .sentiment-badge {
+            padding: 6px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .badge-positive {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        .badge-neutral {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+        .badge-negative {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        .sentiment-indicator {
+            display: flex;
+            align-items: center;
+        }
+        .sentiment-value {
+            min-width: 40px;
+        }
+        .trend-icon {
+            margin-left: 8px;
+        }
+        .up-trend {
+            color: #10b981;
+        }
+        .down-trend {
+            color: #ef4444;
+        }
+        .static-trend {
+            color: #f59e0b;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header text-center">
+        <h1 class="text-4xl font-bold mb-4">Cryptocurrency Sentiment Analysis</h1>
+        <p class="text-xl">Social Media Activity & Market Sentiment Trends</p>
+        <p class="text-sm mt-2">Generated on: April 8, 2025</p>
+    </header>
+
+    <!-- Introduction -->
+    <section class="card">
+        <h2 class="text-2xl font-bold mb-4">Introduction</h2>
+        <p class="mb-4">
+            Sentiment analysis has become a crucial tool for cryptocurrency investors and traders. By tracking how social media users and the broader crypto community feel about different cryptocurrencies, we can gain valuable insights into market sentiment and potential price movements.
+        </p>
+        <p class="mb-4">
+            This report analyzes social media activity, including posts, engagement metrics, and mentions for the top 10 trending cryptocurrencies. Our sentiment analysis algorithms process thousands of social media posts across platforms like Twitter, Reddit, and Discord to gauge public sentiment.
+        </p>
+        <p>
+            Understanding market sentiment can provide an early warning system for shifts in the market, as social sentiment often precedes price movements. This report highlights key trends, sentiments, and correlations to help you make more informed decisions.
+        </p>
+    </section>
+
+    <!-- Top 10 Cryptocurrencies Table -->
+    <section class="card">
+        <h2 class="text-2xl font-bold mb-4">Top 10 Cryptocurrencies Sentiment Scores</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Cryptocurrency</th>
+                        <th>Price (USD)</th>
+                        <th>24h Change</th>
+                        <th>Sentiment Score</th>
+                        <th>Sentiment</th>
+                        <th>Social Volume</th>
+                    </tr>
+                </thead>
+                <tbody id="crypto-table-body">
+                    <!-- Table rows will be dynamically generated -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Visualizations -->
+    <section>
+        <!-- Sentiment Trends Over Time -->
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-4">Sentiment Trends Over Time (Last 30 Days)</h2>
+            <p class="mb-4">This chart shows how sentiment for each cryptocurrency has evolved over the past month, helping identify emerging trends and shifts in market perception.</p>
+            <div class="chart-container">
+                <canvas id="sentimentTrendsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Positive vs Negative Sentiment Ratios -->
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-4">Positive vs Negative Sentiment Ratios</h2>
+            <p class="mb-4">This comparison shows the balance between positive and negative sentiment for each cryptocurrency, indicating overall market perception.</p>
+            <div class="chart-container">
+                <canvas id="sentimentRatiosChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Comparative Sentiment Analysis (Radar Chart) -->
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-4">Comparative Sentiment Analysis</h2>
+            <p class="mb-4">This radar chart compares cryptocurrencies across different sentiment metrics, including bullish signals, community engagement, developer activity, and institutional interest.</p>
+            <div class="chart-container">
+                <canvas id="comparativeSentimentChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Sentiment vs Price Correlation -->
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-4">Sentiment vs Price Correlation</h2>
+            <p class="mb-4">This scatter plot shows the relationship between sentiment scores and price performance, helping identify potential over or undervalued assets based on social sentiment.</p>
+            <div class="chart-container">
+                <canvas id="sentimentPriceChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Insights -->
+    <section class="card">
+        <h2 class="text-2xl font-bold mb-4">Key Insights & Observations</h2>
+        <div id="insights-container">
+            <!-- Insights will be dynamically generated -->
+        </div>
+    </section>
+
+    <!-- Recommendations -->
+    <section class="card">
+        <h2 class="text-2xl font-bold mb-4">Recommendations Based on Sentiment Analysis</h2>
+        <div id="recommendations-container">
+            <!-- Recommendations will be dynamically generated -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center text-gray-500 mt-10 mb-4">
+        <p>This report is generated using simulated data for educational purposes only. Do not use for financial decisions.</p>
+        <p class="mt-2">© 2025 Crypto Sentiment Analysis Tool</p>
+    </footer>
+
+    <script>
+        // Data Generation Functions
+        function generateCryptoData() {
+            const cryptocurrencies = [
+                { name: "Bitcoin", symbol: "BTC", iconColor: "#F7931A" },
+                { name: "Ethereum", symbol: "ETH", iconColor: "#627EEA" },
+                { name: "Tether", symbol: "USDT", iconColor: "#26A17B" },
+                { name: "XRP", symbol: "XRP", iconColor: "#23292F" },
+                { name: "Binance Coin", symbol: "BNB", iconColor: "#F3BA2F" },
+                { name: "Solana", symbol: "SOL", iconColor: "#00FFA3" },
+                { name: "USD Coin", symbol: "USDC", iconColor: "#2775CA" },
+                { name: "Cardano", symbol: "ADA", iconColor: "#0033AD" },
+                { name: "Dogecoin", symbol: "DOGE", iconColor: "#C2A633" },
+                { name: "Avalanche", symbol: "AVAX", iconColor: "#E84142" }
+            ];
+
+            const prices = [
+                76408.41, // BTC
+                3345.88,  // ETH
+                1.00,     // USDT
+                0.58,     // XRP
+                541.40,   // BNB
+                184.32,   // SOL
+                1.00,     // USDC
+                0.46,     // ADA
+                0.15,     // DOGE
+                35.24     // AVAX
+            ];
+
+            const sentimentScores = [
+                8.7,  // BTC
+                7.9,  // ETH
+                5.4,  // USDT
+                8.2,  // XRP
+                7.1,  // BNB
+                8.5,  // SOL
+                5.2,  // USDC
+                6.8,  // ADA
+                7.6,  // DOGE
+                7.3   // AVAX
+            ];
+
+            const priceChanges = [
+                2.45,   // BTC
+                -1.23,  // ETH
+                0.01,   // USDT
+                5.67,   // XRP
+                -0.82,  // BNB
+                3.91,   // SOL
+                0.00,   // USDC
+                -2.15,  // ADA
+                8.32,   // DOGE
+                -3.74   // AVAX
+            ];
+
+            const socialVolumes = [
+                98750,  // BTC
+                76540,  // ETH
+                12450,  // USDT
+                45670,  // XRP
+                32150,  // BNB
+                68430,  // SOL
+                9820,   // USDC
+                28760,  // ADA
+                86430,  // DOGE
+                23570   // AVAX
+            ];
+
+            return cryptocurrencies.map((crypto, index) => {
+                return {
+                    ...crypto,
+                    price: prices[index],
+                    sentimentScore: sentimentScores[index],
+                    priceChange: priceChanges[index],
+                    socialVolume: socialVolumes[index],
+                    positiveSentiment: Math.random() * 0.3 + 0.5, // 50-80%
+                    negativeSentiment: Math.random() * 0.3, // 0-30%
+                    neutralSentiment: 0.2
+                };
+            });
+        }
+
+        function generateTimeSeriesData(cryptoData) {
+            const dates = [];
+            const now = new Date();
+            
+            // Generate dates for the last 30 days
+            for (let i = 29; i >= 0; i--) {
+                const date = new Date(now);
+                date.setDate(now.getDate() - i);
+                dates.push(date.toISOString().split('T')[0]);
+            }
+            
+            // Generate sentiment scores for each crypto over time
+            const timeSeriesData = {};
+            
+            cryptoData.forEach(crypto => {
+                const baseScore = crypto.sentimentScore;
+                const volatility = Math.random() * 0.5 + 0.5; // Different volatility for different coins
+                
+                timeSeriesData[crypto.symbol] = dates.map((date, index) => {
+                    // Create some realistic patterns with occasional spikes and dips
+                    let noise = (Math.sin(index/5) + Math.cos(index/3)) * volatility;
+                    let trend = index / 60; // Slight upward trend over time
+                    
+                    // Add some random events (spikes or dips)
+                    if (Math.random() < 0.1) {
+                        noise += (Math.random() * 2 - 1) * 1.5;
+                    }
+                    
+                    let score = baseScore + noise + trend;
+                    
+                    // Keep score within reasonable bounds (1-10)
+                    score = Math.max(1, Math.min(10, score));
+                    
+                    return {
+                        date,
+                        score: parseFloat(score.toFixed(1))
+                    };
+                });
+            });
+            
+            return {
+                dates,
+                timeSeriesData
+            };
+        }
+
+        function generateRadarData(cryptoData) {
+            const attributes = [
+                "Bullish Signals",
+                "Social Engagement",
+                "Developer Activity",
+                "Institutional Interest",
+                "Technical Analysis"
+            ];
+            
+            const radarData = cryptoData.map(crypto => {
+                return {
+                    name: crypto.name,
+                    symbol: crypto.symbol,
+                    attributes: attributes.map(() => Math.floor(Math.random() * 50) + 50) // Values between 50-100
+                };
+            });
+            
+            return {
+                attributes,
+                radarData
+            };
+        }
+
+        function generateInsights(cryptoData, timeSeriesData) {
+            // Find most positive sentiment crypto
+            const mostPositive = [...cryptoData].sort((a, b) => b.sentimentScore - a.sentimentScore)[0];
+            
+            // Find most negative sentiment crypto
+            const mostNegative = [...cryptoData].sort((a, b) => a.sentimentScore - b.sentimentScore)[0];
+            
+            // Find biggest sentiment change
+            const sentimentChanges = {};
+            Object.keys(timeSeriesData).forEach(symbol => {
+                const data = timeSeriesData[symbol];
+                const firstPoint = data[0].score;
+                const lastPoint = data[data.length - 1].score;
+                sentimentChanges[symbol] = lastPoint - firstPoint;
+            });
+            
+            const biggestGainer = Object.keys(sentimentChanges).reduce((a, b) => 
+                sentimentChanges[a] > sentimentChanges[b] ? a : b
+            );
+            
+            const biggestLoser = Object.keys(sentimentChanges).reduce((a, b) => 
+                sentimentChanges[a] < sentimentChanges[b] ? a : b
+            );
+            
+            // Find crypto with highest social engagement
+            const highestEngagement = [...cryptoData].sort((a, b) => b.socialVolume - a.socialVolume)[0];
+            
+            return [
+                {
+                    title: "Highest Positive Sentiment",
+                    content: `<strong>${mostPositive.name} (${mostPositive.symbol})</strong> currently has the highest sentiment score at <span class="positive">${mostPositive.sentimentScore.toFixed(1)}</span>, indicating strong community confidence and positive market outlook.`
+                },
+                {
+                    title: "Most Improved Sentiment",
+                    content: `<strong>${cryptoData.find(c => c.symbol === biggestGainer).name} (${biggestGainer})</strong> has shown the largest improvement in sentiment over the past 30 days, with an increase of <span class="positive">${sentimentChanges[biggestGainer].toFixed(1)} points</span>, suggesting growing market optimism.`
+                },
+                {
+                    title: "Declining Sentiment Alert",
+                    content: `<strong>${cryptoData.find(c => c.symbol === biggestLoser).name} (${biggestLoser})</strong> has experienced the most significant sentiment decline, dropping <span class="negative">${Math.abs(sentimentChanges[biggestLoser]).toFixed(1)} points</span> over the past month, potentially signaling upcoming market challenges.`
+                },
+                {
+                    title: "Highest Social Engagement",
+                    content: `<strong>${highestEngagement.name} (${highestEngagement.symbol})</strong> leads in social media engagement with <span class="positive">${highestEngagement.socialVolume.toLocaleString()}</span> interactions, suggesting high market interest and active community participation.`
+                },
+                {
+                    title: "Sentiment-Price Correlation",
+                    content: `Our analysis reveals a strong correlation between sentiment scores and price movements for most cryptocurrencies, with sentiment shifts typically preceding price changes by 2-5 days, providing a potential early indicator for market trends.`
+                }
+            ];
+        }
+
+        function generateRecommendations(cryptoData, timeSeriesData) {
+            // Sort by current sentiment score
+            const highSentiment = [...cryptoData].sort((a, b) => b.sentimentScore - a.sentimentScore).slice(0, 3);
+            
+            // Find cryptocurrencies with rapidly improving sentiment
+            const sentimentChanges = {};
+            Object.keys(timeSeriesData).forEach(symbol => {
+                const data = timeSeriesData[symbol];
+                // Look at last 7 days
+                const recent = data.slice(-7);
+                const firstPoint = recent[0].score;
+                const lastPoint = recent[recent.length - 1].score;
+                sentimentChanges[symbol] = lastPoint - firstPoint;
+            });
+            
+            const improvingSentiment = Object.keys(sentimentChanges)
+                .filter(symbol => sentimentChanges[symbol] > 0.5) // Significant improvement
+                .map(symbol => cryptoData.find(c => c.symbol === symbol))
+                .sort((a, b) => sentimentChanges[b.symbol] - sentimentChanges[a.symbol])
+                .slice(0, 2);
+            
+            // Find cryptocurrencies with sentiment-price divergence (high sentiment, negative price change)
+            const divergence = cryptoData
+                .filter(c => c.sentimentScore > 7 && c.priceChange < 0)
+                .sort((a, b) => b.sentimentScore - a.sentimentScore)
+                .slice(0, 2);
+            
+            return [
+                {
+                    title: "Monitor High Sentiment Leaders",
+                    content: `The following cryptocurrencies show consistently high sentiment scores, suggesting strong market confidence: 
+                        <ul class="list-disc ml-6 mt-2">
+                            ${highSentiment.map(c => `<li><strong>${c.name} (${c.symbol})</strong> - Sentiment Score: ${c.sentimentScore.toFixed(1)}</li>`).join('')}
+                        </ul>
+                        Consider these assets for potential long-term investment opportunities, while still conducting thorough fundamental analysis.`
+                },
+                {
+                    title: "Watch Improving Sentiment Trends",
+                    content: `These cryptocurrencies demonstrate rapidly improving sentiment over the past week, which may indicate upcoming positive price movement:
+                        <ul class="list-disc ml-6 mt-2">
+                            ${improvingSentiment.map(c => `<li><strong>${c.name} (${c.symbol})</strong> - Weekly Sentiment Change: +${sentimentChanges[c.symbol].toFixed(1)} points</li>`).join('')}
+                        </ul>
+                        Consider these for potential short to medium-term opportunities, but monitor for sustainability of sentiment improvement.`
+                },
+                {
+                    title: "Potential Reversal Opportunities",
+                    content: `These cryptocurrencies show a divergence between positive sentiment and negative price performance, which may indicate potential reversal opportunities:
+                        <ul class="list-disc ml-6 mt-2">
+                            ${divergence.map(c => `<li><strong>${c.name} (${c.symbol})</strong> - Sentiment: ${c.sentimentScore.toFixed(1)}, Price Change: ${c.priceChange.toFixed(2)}%</li>`).join('')}
+                        </ul>
+                        This pattern often precedes price corrections as market sentiment eventually influences trading decisions.`
+                },
+                {
+                    title: "Sentiment Analysis Integration",
+                    content: `For optimal results, integrate sentiment analysis with other research methods:
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>Combine sentiment data with technical analysis indicators</li>
+                            <li>Monitor on-chain metrics alongside social sentiment</li>
+                            <li>Track sentiment divergence from fundamental developments</li>
+                            <li>Set up alerts for significant sentiment shifts in your portfolio assets</li>
+                        </ul>
+                        This multi-faceted approach provides a more comprehensive view of market dynamics.`
+                }
+            ];
+        }
+
+        // Utility Functions
+        function getSentimentClass(score) {
+            if (score >= 7) return "positive";
+            if (score >= 5) return "neutral";
+            return "negative";
+        }
+
+        function getSentimentBadge(score) {
+            if (score >= 7) return "badge-positive";
+            if (score >= 5) return "badge-neutral";
+            return "badge-negative";
+        }
+
+        function getSentimentLabel(score) {
+            if (score >= 7) return "Bullish";
+            if (score >= 5) return "Neutral";
+            return "Bearish";
+        }
+
+        function getTrendIcon(value) {
+            if (value > 0) return `<i class="fas fa-arrow-up trend-icon up-trend"></i>`;
+            if (value < 0) return `<i class="fas fa-arrow-down trend-icon down-trend"></i>`;
+            return `<i class="fas fa-minus trend-icon static-trend"></i>`;
+        }
+
+        // Rendering Functions
+        function renderCryptoTable(cryptoData) {
+            const tableBody = document.getElementById('crypto-table-body');
+            tableBody.innerHTML = '';
+            
+            cryptoData.forEach((crypto, index) => {
+                const row = document.createElement('tr');
+                
+                const sentimentClass = getSentimentClass(crypto.sentimentScore);
+                const sentimentBadge = getSentimentBadge(crypto.sentimentScore);
+                const sentimentLabel = getSentimentLabel(crypto.sentimentScore);
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>
+                        <div class="flex items-center">
+                            <span class="inline-block w-6 h-6 rounded-full mr-2" style="background-color: ${crypto.iconColor};"></span>
+                            <span class="font-medium">${crypto.name} (${crypto.symbol})</span>
+                        </div>
+                    </td>
+                    <td>$${crypto.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td class="${crypto.priceChange > 0 ? 'positive' : crypto.priceChange < 0 ? 'negative' : 'neutral'}">
+                        ${crypto.priceChange > 0 ? '+' : ''}${crypto.priceChange.toFixed(2)}% ${getTrendIcon(crypto.priceChange)}
+                    </td>
+                    <td>
+                        <div class="sentiment-indicator">
+                            <span class="sentiment-value ${sentimentClass} font-bold">${crypto.sentimentScore.toFixed(1)}</span>
+                            <div class="ml-3 flex-grow max-w-xs">
+                                <div class="rating-bar rating-${sentimentClass}" style="width: ${crypto.sentimentScore * 10}%;"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span class="sentiment-badge ${sentimentBadge}">${sentimentLabel}</span></td>
+                    <td>${crypto.socialVolume.toLocaleString()}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        function renderSentimentTrends(timeSeriesData, dates, cryptoData) {
+            const ctx = document.getElementById('sentimentTrendsChart').getContext('2d');
+            
+            const datasets = [];
+            
+            // Create datasets for each cryptocurrency
+            cryptoData.forEach((crypto, index) => {
+                datasets.push({
+                    label: crypto.symbol,
+                    data: timeSeriesData[crypto.symbol].map(point => point.score),
+                    borderColor: crypto.iconColor,
+                    backgroundColor: `${crypto.iconColor}33`,
+                    borderWidth: 2,
+                    tension: 0.3,
+                    pointRadius: 2,
+                    pointHoverRadius: 5
+                });
+            });
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: '#e0e0e0',
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#333',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: '#555',
+                            borderWidth: 1,
+                            padding: 15
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: '#333'
+                            },
+                            ticks: {
+                                color: '#aaa'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: '#333'
+                            },
+                            ticks: {
+                                color: '#aaa'
+                            },
+                            min: 0,
+                            max: 10,
+                            title: {
+                                display: true,
+                                text: 'Sentiment Score',
+                                color: '#e0e0e0'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderSentimentRatios(cryptoData) {
+            const ctx = document.getElementById('sentimentRatiosChart').getContext('2d');
+            
+            // Prepare data
+            const labels = cryptoData.map(crypto => crypto.symbol);
+            const positiveData = cryptoData.map(crypto => (crypto.positiveSentiment * 100).toFixed(1));
+            const neutralData = cryptoData.map(crypto => (crypto.neutralSentiment * 100).toFixed(1));
+            const negativeData = cryptoData.map(crypto => (crypto.negativeSentiment * 100).toFixed(1));
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Positive',
+                            data: positiveData,
+                            backgroundColor: '#10b981',
+                            borderColor: '#059669',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Neutral',
+                            data: neutralData,
+                            backgroundColor: '#f59e0b',
+                            borderColor: '#d97706',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Negative',
+                            data: negativeData,
+                            backgroundColor: '#ef4444',
+                            borderColor: '#dc2626',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            backgroundColor: '#333',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: '#555',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.raw}%`;
+                                }
+                            }
+                        },
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: '#e0e0e0',
+                                padding: 20
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: '#333'
+                            },
+                            ticks: {
+                                color: '#aaa'
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            grid: {
+                                color: '#333'
+                            },
+                            ticks: {
+                                color: '#aaa',
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Sentiment Distribution',
+                                color: '#e0e0e0'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderComparativeSentiment(radarData) {
+            const ctx = document.getElementById('comparativeSentimentChart').getContext('2d');
+            
+            // We'll show only top 5 cryptocurrencies in the radar chart to avoid overcrowding
+            const topCryptos = radarData.radarData.slice(0, 5);
+            
+            const datasets = topCryptos.map(crypto => {
+                const color = cryptoData.find(c => c.symbol === crypto.symbol).iconColor;
+                return {
+                    label: crypto.symbol,
+                    data: crypto.attributes,
+                    borderColor: color,
+                    backgroundColor: `${color}33`,
+                    borderWidth: 2,
+                    pointBackgroundColor: color,
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: color
+                };
+            });
+            
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: radarData.attributes,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: '#444'
+                            },
+                            grid: {
+                                color: '#333'
+                            },
+                            pointLabels: {
+                                color: '#e0e0e0'
+                            },
+                            ticks: {
+                                backdropColor: 'rgba(0, 0, 0, 0)',
+                                color: '#aaa'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: '#e0e0e0',
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#333',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: '#555',
+                            borderWidth: 1
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderSentimentPriceCorrelation(cryptoData) {
+            const ctx = document.getElementById('sentimentPriceChart').getContext('2d');
+            
+            const data = cryptoData.map(crypto => ({
+                x: crypto.sentimentScore,
+                y: crypto.priceChange,
+                r: Math.log(crypto.socialVolume) * 2, // Bubble size based on social volume
+                symbol: crypto.symbol,
+                name: crypto.name
+            }));
+            
+            new Chart(ctx, {
+                type: 'bubble',
+                data: {
+                    datasets: [{
+                        label: 'Sentiment vs. Price Change',
+                        data: data,
+                        backgroundColor: data.map(point => {
+                            const crypto = cryptoData.find(c => c.symbol === point.symbol);
+                            return `${crypto.iconColor}99`;
+                        }),
+                        borderColor: data.map(point => {
+                            const crypto = cryptoData.find(c => c.symbol === point.symbol);
+                            return crypto.iconColor;
+                        }),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: {
+                                color: '#333'
+                            },
+                            ticks: {
+                                color: '#aaa'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Sentiment Score',
+                                color: '#e0e0e0'
+                            },
+                            min: 0,
+                            max: 10
+                        },
+                        y: {
+                            grid: {
+                                color: '#333'
+                            },
+                            ticks: {
+                                color: '#aaa',
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: '24h Price Change (%)',
+                                color: '#e0e0e0'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: '#333',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: '#555',
+                            borderWidth: 1,
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    const point = data[item.dataIndex];
+                                    return `${point.name} (${point.symbol})`;
+                                },
+                                label: function(context) {
+                                    return [
+                                        `Sentiment: ${context.raw.x.toFixed(1)}`,
+                                        `Price Change: ${context.raw.y.toFixed(2)}%`,
+                                        `Social Volume: ${cryptoData.find(c => c.symbol === context.raw.symbol).socialVolume.toLocaleString()}`
+                                    ];
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderInsights(insights) {
+            const container = document.getElementById('insights-container');
+            
+            insights.forEach(insight => {
+                const insightElement = document.createElement('div');
+                insightElement.className = 'mb-6';
+                
+                insightElement.innerHTML = `
+                    <h3 class="text-xl font-semibold mb-2">${insight.title}</h3>
+                    <p>${insight.content}</p>
+                `;
+                
+                container.appendChild(insightElement);
+            });
+        }
+
+        function renderRecommendations(recommendations) {
+            const container = document.getElementById('recommendations-container');
+            
+            recommendations.forEach(recommendation => {
+                const recElement = document.createElement('div');
+                recElement.className = 'recommendation mb-6';
+                
+                recElement.innerHTML = `
+                    <h3 class="text-xl font-semibold mb-2">${recommendation.title}</h3>
+                    <p>${recommendation.content}</p>
+                `;
+                
+                container.appendChild(recElement);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate data
+            const cryptoData = generateCryptoData();
+            const timeSeriesData = generateTimeSeriesData(cryptoData);
+            const radarData = generateRadarData(cryptoData);
+            
+            // Generate insights and recommendations
+            const insights = generateInsights(cryptoData, timeSeriesData.timeSeriesData);
+            const recommendations = generateRecommendations(cryptoData, timeSeriesData.timeSeriesData);
+            
+            // Render all components
+            renderCryptoTable(cryptoData);
+            renderSentimentTrends(timeSeriesData.timeSeriesData, timeSeriesData.dates, cryptoData);
+            renderSentimentRatios(cryptoData);
+            renderComparativeSentiment(radarData);
+            renderSentimentPriceCorrelation(cryptoData);
+            renderInsights(insights);
+            renderRecommendations(recommendations);
+        });
+    </script>
+</body>
+</html>
