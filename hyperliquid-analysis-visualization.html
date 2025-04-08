@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyperliquid ($HYPE): March 2025 Liquidity Crisis Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 20px;
+            border-left: 2px solid #3b82f6;
+        }
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #3b82f6;
+            left: -8px;
+            top: 5px;
+        }
+        .incident-diagram {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .solution-card {
+            border-left: 4px solid #10b981;
+            padding-left: 15px;
+            margin-bottom: 15px;
+        }
+        .chart-container {
+            height: 300px;
+            margin-bottom: 30px;
+        }
+        .quote {
+            background-color: #f3f4f6;
+            border-left: 4px solid #6b7280;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        @media print {
+            .page-break {
+                page-break-before: avoid;
+            }
+            body {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Header -->
+        <header class="mb-10 text-center">
+            <h1 class="text-4xl font-bold text-blue-800 mb-2">Hyperliquid ($HYPE)</h1>
+            <h2 class="text-2xl text-gray-700">March 2025 Liquidity Crisis & Resolution Analysis</h2>
+            <div class="flex justify-center items-center mt-4">
+                <div class="bg-blue-100 text-blue-800 rounded-full px-4 py-1 text-sm mr-2">DeFi</div>
+                <div class="bg-purple-100 text-purple-800 rounded-full px-4 py-1 text-sm mr-2">Perpetual DEX</div>
+                <div class="bg-red-100 text-red-800 rounded-full px-4 py-1 text-sm">Risk Management</div>
+            </div>
+        </header>
+
+        <!-- Introduction -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Introduction</h2>
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <p class="mb-4">
+                    Hyperliquid is a high-performance Layer 1 blockchain built specifically for decentralized finance, featuring a fully on-chain order book perpetuals exchange. In March 2025, the platform faced significant challenges related to liquidity and whale trading activities that threatened the stability of the entire ecosystem.
+                </p>
+                <p>
+                    This analysis details the fundamental issues encountered, the solutions implemented by the Hyperliquid team, and the current state of the platform following these remediation efforts.
+                </p>
+                
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-blue-50 p-4 rounded-lg text-center">
+                        <div class="text-3xl font-bold text-blue-600 mb-2">58%</div>
+                        <div class="text-sm text-gray-600">Market Share in On-Chain Perpetual Markets</div>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg text-center">
+                        <div class="text-3xl font-bold text-green-600 mb-2">$2.3B</div>
+                        <div class="text-sm text-gray-600">Daily Trading Volume (Mid-March 2025)</div>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-lg text-center">
+                        <div class="text-3xl font-bold text-red-600 mb-2">$10M+</div>
+                        <div class="text-sm text-gray-600">Combined Losses from March 2025 Incidents</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Timeline of Events</h2>
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <div class="chart-container">
+                    <canvas id="timelineChart"></canvas>
+                </div>
+                
+                <div class="mt-6">
+                    <div class="timeline-item">
+                        <h3 class="font-bold text-lg">March 12, 2025</h3>
+                        <p>A whale trader liquidates a massive $200M ETH position, causing a $4M loss to the HLP liquidity pool</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h3 class="font-bold text-lg">March 13, 2025</h3>
+                        <p>Hyperliquid announces changes to risk parameters and margin requirements to prevent similar incidents</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h3 class="font-bold text-lg">March 15, 2025</h3>
+                        <p>New 20% minimum margin requirement takes effect for certain open positions</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h3 class="font-bold text-lg">March 26, 2025</h3>
+                        <p>The JELLY memecoin exploit occurs, with a trader manipulating token prices and extracting $6.2M</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h3 class="font-bold text-lg">March 27-28, 2025</h3>
+                        <p>Community backlash over centralized decision-making in handling the JELLY incident</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h3 class="font-bold text-lg">March 29, 2025</h3>
+                        <p>Hyperliquid introduces fully on-chain validator voting for asset delisting to address centralization concerns</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h3 class="font-bold text-lg">April 2025</h3>
+                        <p>Market stabilization and continued dominance in on-chain perpetual futures markets</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Issues -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Fundamental Issues</h2>
+            
+            <!-- ETH Liquidation Incident -->
+            <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+                <h3 class="text-xl font-bold text-red-700 mb-4">The $4M ETH Liquidation Incident</h3>
+                
+                <div class="incident-diagram" id="ethIncidentContainer">
+                    <div class="flex flex-col md:flex-row">
+                        <div class="w-full md:w-1/2 p-4">
+                            <h4 class="font-bold mb-2">How It Happened:</h4>
+                            <ol class="list-decimal pl-5 space-y-2">
+                                <li>A whale trader opened a massive 50x leveraged ETH long position worth ~$340M</li>
+                                <li>The trader deposited minimal required collateral</li>
+                                <li>Later, they withdrew $17.09M in margin, deliberately reducing their collateral below maintenance level</li>
+                                <li>This triggered an automatic liquidation of the position</li>
+                                <li>The HLP vault absorbed the position at market price, resulting in a $4M loss</li>
+                            </ol>
+                        </div>
+                        <div class="w-full md:w-1/2 mt-4 md:mt-0">
+                            <canvas id="ethIncidentChart" height="250"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quote">
+                    "By withdrawing nearly all of their collateral before the position was liquidated, they managed to avoid slippage and exit the trade without incurring significant losses. However, this strategy shifted the financial burden onto Hyperliquid's liquidity pool (HLP)."
+                    <div class="text-right text-sm mt-1">— NFT Evening</div>
+                </div>
+                
+                <div class="mt-4">
+                    <h4 class="font-bold mb-2">Key Vulnerabilities Exposed:</h4>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Insufficient margin requirements for large positions</li>
+                        <li>No limits on position size relative to market liquidity</li>
+                        <li>Vulnerabilities in the liquidation mechanism</li>
+                        <li>Lack of withdrawal limits for positions nearing liquidation</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- JELLY Memecoin Exploit -->
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <h3 class="text-xl font-bold text-red-700 mb-4">The $6M JELLY Memecoin Exploit</h3>
+                
+                <div class="incident-diagram">
+                    <div class="flex flex-col md:flex-row">
+                        <div class="w-full md:w-1/2 p-4">
+                            <h4 class="font-bold mb-2">How It Happened:</h4>
+                            <ol class="list-decimal pl-5 space-y-2">
+                                <li>Attacker opened two long positions and one short position on the JELLY token</li>
+                                <li>The short position was worth $4.1M, significant for a token with just $25M market cap</li>
+                                <li>Attacker manipulated JELLY price across multiple exchanges, pumping it by 429% in one hour</li>
+                                <li>Due to Hyperliquid's inheritance policies, the HLP inherited the underwater short position</li>
+                                <li>When losses reached $12M, Hyperliquid validators delistedthe token and settled positions at arbitrary price</li>
+                                <li>The attacker withdrew $6.26M of the $7.17M deposited before their withdrawals were frozen</li>
+                            </ol>
+                        </div>
+                        <div class="w-full md:w-1/2 mt-4 md:mt-0">
+                            <canvas id="jellyIncidentChart" height="250"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quote">
+                    "The attack exploited a vulnerability in how the protocol handled liquidations, pumping the JellyJelly token by 429% in a single hour. Facing the risk of losing everything, the protocol revealed centralized control over market pricing."
+                    <div class="text-right text-sm mt-1">— Halborn</div>
+                </div>
+                
+                <div class="mt-4">
+                    <h4 class="font-bold mb-2">Key Vulnerabilities Exposed:</h4>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Allowing massive positions on illiquid assets</li>
+                        <li>Susceptibility to price oracle manipulation</li>
+                        <li>Automatic inheritance of positions too large to be liquidated normally</li>
+                        <li>Revealed high level of centralization despite claims of decentralization</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solutions Implemented -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Solutions Implemented</h2>
+            
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-green-700 mb-4">Enhanced Risk Management & Margin Requirements</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="solution-card">
+                            <h4 class="font-bold">Increased Margin Requirements</h4>
+                            <p>Minimum margin requirement raised to 20% for certain open positions</p>
+                            <div class="flex items-center mt-2">
+                                <div class="w-1/2 text-sm">Before: <span class="font-semibold">Minimal/Variable</span></div>
+                                <div class="w-1/2 text-sm">After: <span class="font-semibold text-green-600">20% Minimum</span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="solution-card">
+                            <h4 class="font-bold">Reduced Leverage Limits</h4>
+                            <p>Maximum leverage adjusted downward for major cryptocurrencies</p>
+                            <div class="mt-2 space-y-1 text-sm">
+                                <div class="flex justify-between">
+                                    <span>Bitcoin:</span>
+                                    <span>50x → <span class="text-green-600 font-semibold">40x</span></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Ethereum:</span>
+                                    <span>33x → <span class="text-green-600 font-semibold">25x</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="solution-card">
+                            <h4 class="font-bold">Position Size Limits</h4>
+                            <p>Implementation of limits on position sizes relative to market liquidity</p>
+                            <div class="flex items-center mt-2">
+                                <div class="w-1/2 text-sm">Before: <span class="font-semibold">No limits</span></div>
+                                <div class="w-1/2 text-sm">After: <span class="font-semibold text-green-600">Proportional limits</span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="solution-card">
+                            <h4 class="font-bold">Withdrawal Restrictions</h4>
+                            <p>Preventing collateral withdrawal for positions near liquidation threshold</p>
+                            <div class="flex items-center mt-2">
+                                <div class="w-1/2 text-sm">Before: <span class="font-semibold">Unrestricted</span></div>
+                                <div class="w-1/2 text-sm">After: <span class="font-semibold text-green-600">Safety thresholds</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quote mt-6">
+                        "Starting March 15, the platform will require a minimum margin of 20% for certain open positions to reduce systemic risks and protect liquidity stability during extreme market fluctuations."
+                        <div class="text-right text-sm mt-1">— NFT Evening</div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold text-green-700 mb-4">Improved Decentralization & Governance</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="solution-card">
+                            <h4 class="font-bold">On-Chain Validator Voting</h4>
+                            <p>Implemented fully on-chain validator voting system for asset delisting</p>
+                            <div class="text-sm mt-2">
+                                Enables a quorum of validator stakes to autonomously trigger asset removals directly on-chain without off-chain coordination
+                            </div>
+                        </div>
+                        
+                        <div class="solution-card">
+                            <h4 class="font-bold">Transparent Asset Listing Parameters</h4>
+                            <p>Clear criteria established for asset listing/delisting decisions</p>
+                            <div class="text-sm mt-2">
+                                Formalized rules for market cap requirements, liquidity thresholds, and vulnerability assessments
+                            </div>
+                        </div>
+                        
+                        <div class="solution-card">
+                            <h4 class="font-bold">Enhanced Oracle Systems</h4>
+                            <p>Improved price oracle mechanisms to prevent manipulation</p>
+                            <div class="text-sm mt-2">
+                                Implementation of time-weighted average prices (TWAP) and multiple trusted data sources
+                            </div>
+                        </div>
+                        
+                        <div class="solution-card">
+                            <h4 class="font-bold">User Compensation</h4>
+                            <p>Commitment to reimburse affected users from the JELLY incident</p>
+                            <div class="text-sm mt-2">
+                                Demonstrates commitment to platform integrity and user protection
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quote mt-6">
+                        "Hyperliquid revealed that it has upgraded its blockchain, introducing fully on-chain validator voting for asset delisting. This development enables a quorum of validator stakes to autonomously trigger asset removals directly on-chain without the need for off-chain coordination."
+                        <div class="text-right text-sm mt-1">— Mitrade</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Current Status -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Current Status & Market Position</h2>
+            
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-blue-700 mb-4">Impact on $HYPE Token</h3>
+                    <div class="chart-container">
+                        <canvas id="hypeChart"></canvas>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">HYPE token price dynamics showing immediate price drops after each incident and gradual recovery following solution implementations.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div class="bg-blue-50 rounded-lg p-4">
+                        <h3 class="font-bold text-blue-800 mb-2">Market Dominance</h3>
+                        <ul class="space-y-2">
+                            <li class="flex justify-between">
+                                <span>Market Share:</span>
+                                <span class="font-semibold">58% of on-chain perpetuals</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Daily Volume:</span>
+                                <span class="font-semibold">$2.3 billion (mid-March)</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Total Value Locked:</span>
+                                <span class="font-semibold">$340+ million</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Competitor Comparison:</span>
+                                <span class="font-semibold">Surpassing GMX and dYdX</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-amber-50 rounded-lg p-4">
+                        <h3 class="font-bold text-amber-800 mb-2">Ongoing Challenges</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-amber-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                </svg>
+                                <span>Continued scrutiny over level of decentralization</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-amber-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                </svg>
+                                <span>Rebuilding trust after centralized intervention in JELLY incident</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-amber-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                </svg>
+                                <span>Questions about the 81% control of staked HYPE tokens</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-amber-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                </svg>
+                                <span>Balancing strict risk controls with trader-friendly environment</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="quote mt-6">
+                    "The CEO of Bitget, Gracy Chen, wrote, 'The way it handled the $JELLY incident was immature, unethical, and unprofessional, triggering user losses and casting serious doubts over its integrity,' adding that it could become FTX 2.0."
+                    <div class="text-right text-sm mt-1">— Mitrade</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Lessons & Conclusions</h2>
+            
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <h3 class="font-bold text-lg mb-2 text-blue-700">For Traders</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>Higher margin requirements provide better stability but require more capital</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>Reduced maximum leverage still competitive at 40x for BTC and 25x for ETH</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>Greater protections against market manipulation benefit legitimate traders</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <h3 class="font-bold text-lg mb-2 text-green-700">For Investors</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>HLP (liquidity pool) remains profitable with $60M+ all-time gain despite recent losses</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>Improved risk management framework strengthens long-term stability</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>Enhanced governance moves in right direction but centralization concerns remain</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <h3 class="font-bold text-lg mb-2 text-purple-700">For the Industry</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-purple-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>Highlights importance of balancing decentralization claims with actual governance</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-purple-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>Demonstrates need for robust risk management in all DeFi protocols</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-purple-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>Sets precedent for how DeFi platforms can respond to exploit attempts</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-8">
+                    <h3 class="font-bold text-lg mb-2">Final Assessment</h3>
+                    <p class="mb-4">
+                        Hyperliquid's swift response to the March 2025 liquidity crises demonstrates the team's commitment to platform stability and user protection. The implemented solutions address the immediate vulnerabilities but raise important questions about the balance between centralization and decentralization in DeFi protocols.
+                    </p>
+                    <p>
+                        While Hyperliquid maintains its market dominance with 58% share of on-chain perpetual markets, its long-term success will depend on addressing the remaining centralization concerns while continuing to offer competitive features for traders. The introduction of on-chain validator voting for asset delisting is a step in the right direction, but further decentralization of governance will be necessary to fully align with the values of the DeFi ecosystem.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-600 text-sm">
+            <p>Analysis of Hyperliquid's March 2025 Liquidity Crisis | Data compiled from public sources including Cointelegraph, NFT Evening, Halborn, and Mitrade</p>
+            <p class="mt-2">Created: April 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        // Charts and visualizations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Timeline Chart
+            const timelineCtx = document.getElementById('timelineChart').getContext('2d');
+            const timelineChart = new Chart(timelineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mar 10', 'Mar 12', 'Mar 13', 'Mar 15', 'Mar 20', 'Mar 26', 'Mar 29', 'Apr 1', 'Apr 5'],
+                    datasets: [{
+                        label: 'HYPE Price ($)',
+                        data: [15.20, 14.04, 12.84, 13.36, 14.50, 12.80, 11.40, 12.20, 13.00],
+                        borderColor: 'rgb(59, 130, 246)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true
+                        },
+                        tooltip: {
+                            callbacks: {
+                                afterLabel: function(context) {
+                                    const events = {
+                                        1: 'ETH Liquidation ($4M Loss)',
+                                        2: 'Announced Risk Changes',
+                                        3: '20% Margin Requirement',
+                                        5: 'JELLY Exploit ($6M Loss)',
+                                        6: 'On-chain Validator Voting'
+                                    };
+                                    const index = context.dataIndex;
+                                    return events[index] ? 'Event: ' + events[index] : '';
+                                }
+                            }
+                        },
+                        annotation: {
+                            annotations: {
+                                line1: {
+                                    type: 'line',
+                                    xMin: 1,
+                                    xMax: 1,
+                                    borderColor: 'rgb(220, 38, 38)',
+                                    borderWidth: 2,
+                                },
+                                line2: {
+                                    type: 'line',
+                                    xMin: 5,
+                                    xMax: 5,
+                                    borderColor: 'rgb(220, 38, 38)',
+                                    borderWidth: 2,
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 10,
+                            title: {
+                                display: true,
+                                text: 'HYPE Price ($)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'March-April 2025'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // ETH Incident Chart
+            const ethIncidentCtx = document.getElementById('ethIncidentChart').getContext('2d');
+            const ethIncidentChart = new Chart(ethIncidentCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Initial Position', 'After Withdrawal', 'Liquidation Loss'],
+                    datasets: [{
+                        label: 'Value (USD)',
+                        data: [340000000, 322910000, 4000000],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.6)',
+                            'rgba(245, 158, 11, 0.6)',
+                            'rgba(220, 38, 38, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgb(59, 130, 246)',
+                            'rgb(245, 158, 11)',
+                            'rgb(220, 38, 38)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    const value = context.raw;
+                                    if (value >= 1000000) {
+                                        label += '$' + (value / 1000000).toFixed(1) + 'M';
+                                    } else {
+                                        label += '$' + value.toLocaleString();
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    if (value >= 1000000) {
+                                        return '$' + (value / 1000000) + 'M';
+                                    }
+                                    return '$' + value;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // JELLY Incident Chart
+            const jellyIncidentCtx = document.getElementById('jellyIncidentChart').getContext('2d');
+            const jellyIncidentChart = new Chart(jellyIncidentCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Initial', '10 min', '20 min', '30 min', '40 min', '50 min', '60 min', 'Delisting'],
+                    datasets: [{
+                        label: 'JELLY Price ($)',
+                        data: [0.095, 0.12, 0.18, 0.25, 0.32, 0.41, 0.50, 0.0095],
+                        borderColor: 'rgb(217, 119, 6)',
+                        backgroundColor: 'rgba(217, 119, 6, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true
+                        },
+                        tooltip: {
+                            callbacks: {
+                                afterLabel: function(context) {
+                                    const index = context.dataIndex;
+                                    if (index === 7) {
+                                        return 'Forced price reset by validators';
+                                    }
+                                    return '';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'JELLY Price ($)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // HYPE Token Price Chart
+            const hypeCtx = document.getElementById('hypeChart').getContext('2d');
+            const hypeChart = new Chart(hypeCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mar 1', 'Mar 5', 'Mar 10', 'Mar 12', 'Mar 15', 'Mar 20', 'Mar 26', 'Mar 30', 'Apr 5'],
+                    datasets: [{
+                        label: 'HYPE Price ($)',
+                        data: [15.50, 15.30, 15.20, 12.84, 13.36, 14.50, 11.40, 12.20, 13.00],
+                        borderColor: 'rgb(59, 130, 246)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true
+                        },
+                        tooltip: {
+                            callbacks: {
+                                afterLabel: function(context) {
+                                    const events = {
+                                        3: 'ETH Liquidation Incident',
+                                        4: 'Risk Changes Announced',
+                                        6: 'JELLY Exploit',
+                                        7: 'On-chain Validator Implementation'
+                                    };
+                                    const index = context.dataIndex;
+                                    return events[index] ? 'Event: ' + events[index] : '';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 10,
+                            title: {
+                                display: true,
+                                text: 'HYPE Price ($)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'March-April 2025'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
